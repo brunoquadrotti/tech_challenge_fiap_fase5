@@ -1,0 +1,48 @@
+# Ambiente virtual
+.venv/
+venv/
+env/
+ENV/
+
+# Cache e bytecode Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+build/
+dist/
+
+# Arquivos temporários e logs
+*.log
+*.tmp
+*.bak
+tmp/
+
+# Streamlit
+.streamlit/secrets.toml
+
+# Modelos treinados pesados
+# (mantemos a pasta models/ versionada via .gitkeep, mas ignoramos os pesos)
+*.pt
+*.onnx
+*.engine
+runs/
+
+# Ferramentas / cobertura
+.pytest_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Arquivos de IDE
+.idea/
+.vscode/
+
+# Arquivos do sistema operacional
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Arquivos gerais
+docs/

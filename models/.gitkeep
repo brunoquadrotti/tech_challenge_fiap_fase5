@@ -1,0 +1,1 @@
+# Mantém o diretório models/ versionado. Os pesos treinados (*.pt) são ignorados pelo .gitignore.

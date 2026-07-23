@@ -1,0 +1,3 @@
+# Configuração do dataset YOLO.
+# Este arquivo será configurado na etapa de criação do dataset
+# (definição dos caminhos de treino/validação/teste, número de classes e nomes das classes).

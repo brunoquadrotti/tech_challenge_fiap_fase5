@@ -1,0 +1,16 @@
+# Interface web
+streamlit==1.38.0
+
+# Visão computacional / detecção supervisionada
+ultralytics==8.2.103
+
+# Processamento de imagem
+opencv-python==4.10.0.84
+pillow==10.4.0
+numpy==1.26.4
+
+# Geração de relatório em PDF
+reportlab==4.2.2
+
+# Leitura de configuração do dataset (data.yaml)
+pyyaml==6.0.2
