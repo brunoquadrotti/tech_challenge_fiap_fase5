@@ -35,11 +35,6 @@ hackathon-stride/
 ├── RELATORIO.md                    # Relatório do projeto
 ├── .gitignore
 │
-├── docs/                           # Documentação
-│   ├── architecture.md             # Arquitetura da solução
-│   ├── dataset-collection-plan.md  # Plano de coleta do dataset
-│   └── dataset-planning.md         # Planejamento do dataset
-│
 ├── src/                            # Código-fonte da aplicação
 │   ├── preprocessing.py            # Pré-processamento de imagem (OpenCV / Pillow)
 │   ├── detector.py                 # Carregamento do modelo e inferência YOLO
