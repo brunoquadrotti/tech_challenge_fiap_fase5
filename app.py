@@ -106,7 +106,11 @@ def _run_pipeline(uploaded_file, detector: Detector, stride_engine: StrideEngine
         pdf_bytes = generate_report(detections, relationships, threats)
 
     # Exibição dos resultados (fora do spinner).
-    st.image(annotated, caption="Componentes detectados", use_container_width=True)
+    st.image(
+        annotated,
+        caption="Componentes detectados",
+        use_column_width=True
+    )
     _render_components(detections)
     _render_threats(threats)
 
