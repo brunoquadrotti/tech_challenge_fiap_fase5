@@ -8,8 +8,6 @@ Aplicação capaz de analisar imagens de **diagramas de arquitetura de software*
 
 Unir **Visão Computacional supervisionada** (detecção de componentes com YOLO) a uma **engine de regras determinística** (modelagem de ameaças STRIDE a partir de uma base de conhecimento), entregando uma ferramenta de apoio à análise de segurança na fase de projeto (*security by design*).
 
-A documentação de arquitetura completa está em [`docs/architecture.md`](docs/architecture.md).
-
 ## Funcionalidades
 
 - **Upload de diagrama**: envio de uma imagem (`png`, `jpg`, `jpeg`) pela interface web.
@@ -133,7 +131,6 @@ As saídas (métricas, gráficos e pesos) são gravadas em `runs/`.
 - **`datasets/`** e **`training/`** isolam o ciclo de vida do modelo de IA (dados, anotação, treino e avaliação) do ciclo de vida da aplicação.
 - **`data/`** guarda a base de conhecimento STRIDE, desacoplada do código.
 - **`models/`** armazena os pesos do modelo treinado.
-- **`docs/`** contém a documentação de arquitetura e o planejamento do dataset.
 
 ## Stack Principal
 
