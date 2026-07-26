@@ -38,6 +38,7 @@ htmlcov/
 # Arquivos de IDE
 .idea/
 .vscode/
+.kiro/
 
 # Arquivos do sistema operacional
 .DS_Store

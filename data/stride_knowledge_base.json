@@ -1,1 +1,407 @@
-{}
+{
+  "components": {
+    "actor_user": [
+      {
+        "category": "Spoofing",
+        "description": "Um atacante pode se passar por um usuário legítimo utilizando credenciais roubadas, reutilizadas ou obtidas por phishing.",
+        "countermeasures": [
+          "Exigir autenticação multifator (MFA) para acesso a recursos sensíveis.",
+          "Adotar políticas de senha forte e detecção de credenciais vazadas.",
+          "Monitorar tentativas de login anômalas e aplicar bloqueio progressivo."
+        ]
+      },
+      {
+        "category": "Repudiation",
+        "description": "Um usuário pode negar ter realizado uma ação caso não existam registros confiáveis de auditoria.",
+        "countermeasures": [
+          "Registrar ações relevantes em trilhas de auditoria imutáveis.",
+          "Associar cada ação a uma identidade autenticada e a um carimbo de tempo confiável."
+        ]
+      }
+    ],
+    "actor_admin": [
+      {
+        "category": "Elevation of Privilege",
+        "description": "O comprometimento de uma conta administrativa concede privilégios elevados sobre todo o ambiente.",
+        "countermeasures": [
+          "Aplicar o princípio do menor privilégio e segregação de funções.",
+          "Exigir MFA e acesso administrativo just-in-time (JIT).",
+          "Usar contas administrativas dedicadas e monitorar seu uso."
+        ]
+      },
+      {
+        "category": "Spoofing",
+        "description": "Um atacante pode tentar se passar por um administrador para obter controle privilegiado do sistema.",
+        "countermeasures": [
+          "Exigir autenticação forte (MFA resistente a phishing) para contas administrativas.",
+          "Restringir o acesso administrativo a redes e dispositivos confiáveis."
+        ]
+      }
+    ],
+    "edge_gateway": [
+      {
+        "category": "Denial of Service",
+        "description": "O gateway exposto na borda pode ser alvo de exaustão de recursos, degradando o acesso a todos os serviços internos.",
+        "countermeasures": [
+          "Aplicar rate limiting e throttling por cliente/rota.",
+          "Integrar proteção DDoS na borda.",
+          "Definir timeouts e limites de conexão adequados."
+        ]
+      },
+      {
+        "category": "Elevation of Privilege",
+        "description": "Falhas de roteamento ou validação no gateway podem permitir acesso a rotas e serviços internos não autorizados.",
+        "countermeasures": [
+          "Centralizar autenticação e autorização no gateway.",
+          "Validar e sanitizar todas as requisições antes do encaminhamento.",
+          "Aplicar allowlists de rotas e escopos por token."
+        ]
+      },
+      {
+        "category": "Tampering",
+        "description": "Requisições em trânsito pelo gateway podem ser manipuladas se não houver integridade e transporte seguro.",
+        "countermeasures": [
+          "Forçar HTTPS/TLS em todas as conexões.",
+          "Validar assinaturas e integridade de payloads quando aplicável."
+        ]
+      }
+    ],
+    "edge_waf": [
+      {
+        "category": "Tampering",
+        "description": "Ataques de injeção (SQLi, XSS, path traversal) tentam manipular requisições para alterar o comportamento das aplicações protegidas.",
+        "countermeasures": [
+          "Manter conjuntos de regras (OWASP CRS) atualizados no WAF.",
+          "Habilitar bloqueio de payloads maliciosos e não apenas detecção.",
+          "Registrar e revisar periodicamente os eventos bloqueados."
+        ]
+      },
+      {
+        "category": "Denial of Service",
+        "description": "Regras mal configuradas ou tráfego malicioso volumétrico podem sobrecarregar o WAF ou os serviços protegidos.",
+        "countermeasures": [
+          "Combinar o WAF com proteção DDoS e rate limiting.",
+          "Ajustar regras para evitar falsos positivos que consumam recursos."
+        ]
+      }
+    ],
+    "edge_ddos_protection": [
+      {
+        "category": "Denial of Service",
+        "description": "Ataques volumétricos e de camada de aplicação buscam indisponibilizar os serviços expostos na borda.",
+        "countermeasures": [
+          "Habilitar mitigação automática de DDoS com escalabilidade elástica.",
+          "Definir baselines de tráfego e alertas para desvios.",
+          "Distribuir tráfego por múltiplas regiões/pontos de presença."
+        ]
+      }
+    ],
+    "edge_cdn": [
+      {
+        "category": "Information Disclosure",
+        "description": "Configurações incorretas de cache podem expor conteúdo privado ou dados sensíveis a usuários não autorizados.",
+        "countermeasures": [
+          "Separar conteúdo público de privado e definir políticas de cache explícitas.",
+          "Não armazenar em cache respostas com dados sensíveis ou autenticadas.",
+          "Forçar HTTPS entre cliente, CDN e origem."
+        ]
+      }
+    ],
+    "edge_portal": [
+      {
+        "category": "Spoofing",
+        "description": "O portal exposto ao usuário é alvo de phishing e sequestro de sessão para personificar usuários legítimos.",
+        "countermeasures": [
+          "Implementar autenticação robusta com MFA e gestão segura de sessão.",
+          "Usar cookies seguros (HttpOnly, Secure, SameSite) e expiração de sessão.",
+          "Aplicar proteção contra CSRF e fixation de sessão."
+        ]
+      },
+      {
+        "category": "Information Disclosure",
+        "description": "O portal pode vazar dados sensíveis por mensagens de erro detalhadas ou controles de acesso insuficientes no frontend.",
+        "countermeasures": [
+          "Retornar mensagens de erro genéricas ao usuário.",
+          "Validar autorização no backend, nunca confiar apenas no frontend."
+        ]
+      }
+    ],
+    "external_entry_point": [
+      {
+        "category": "Tampering",
+        "description": "Como superfície de entrada externa, é alvo de injeção e manipulação de entradas para alterar o comportamento do sistema.",
+        "countermeasures": [
+          "Validar e sanitizar rigorosamente todas as entradas externas.",
+          "Aplicar validação de esquema e allowlists de parâmetros.",
+          "Tratar toda entrada externa como não confiável."
+        ]
+      },
+      {
+        "category": "Denial of Service",
+        "description": "O ponto de entrada externo pode ser saturado por requisições maliciosas ou volumétricas.",
+        "countermeasures": [
+          "Aplicar rate limiting e proteção DDoS na entrada.",
+          "Definir limites de tamanho de payload e timeouts."
+        ]
+      }
+    ],
+    "compute_load_balancer": [
+      {
+        "category": "Denial of Service",
+        "description": "O balanceador de carga concentra o tráfego e pode se tornar um ponto único de sobrecarga e indisponibilidade.",
+        "countermeasures": [
+          "Configurar health checks e failover entre múltiplas instâncias/zonas.",
+          "Aplicar limites de conexão e integração com proteção DDoS.",
+          "Habilitar escalabilidade automática do pool de backends."
+        ]
+      },
+      {
+        "category": "Information Disclosure",
+        "description": "Terminação TLS mal configurada no balanceador pode expor tráfego interno em texto claro.",
+        "countermeasures": [
+          "Usar TLS atualizado e cifras fortes na terminação.",
+          "Manter criptografia também no tráfego entre balanceador e backends (re-encrypt)."
+        ]
+      }
+    ],
+    "compute_service": [
+      {
+        "category": "Tampering",
+        "description": "A lógica de negócio do serviço pode ser manipulada por entradas maliciosas ou dependências comprometidas.",
+        "countermeasures": [
+          "Validar entradas e aplicar codificação/escape de saída.",
+          "Verificar integridade de dependências e usar versões fixas.",
+          "Executar o serviço com privilégios mínimos."
+        ]
+      },
+      {
+        "category": "Elevation of Privilege",
+        "description": "Vulnerabilidades na aplicação ou em containers podem permitir escalonamento de privilégios no ambiente de execução.",
+        "countermeasures": [
+          "Executar containers como usuário não-root e com filesystem somente leitura quando possível.",
+          "Aplicar patches de segurança e varredura de vulnerabilidades regularmente.",
+          "Isolar cargas de trabalho com políticas de rede e namespaces."
+        ]
+      },
+      {
+        "category": "Information Disclosure",
+        "description": "Segredos embutidos no código ou em variáveis de ambiente podem ser expostos.",
+        "countermeasures": [
+          "Armazenar segredos em um serviço de gestão de segredos/KMS.",
+          "Evitar logar dados sensíveis e segredos."
+        ]
+      }
+    ],
+    "compute_worker": [
+      {
+        "category": "Tampering",
+        "description": "Workers que processam mensagens de filas podem executar cargas maliciosas se não validarem o conteúdo recebido.",
+        "countermeasures": [
+          "Validar e verificar a integridade das mensagens antes do processamento.",
+          "Isolar a execução de tarefas e aplicar limites de recursos."
+        ]
+      }
+    ],
+    "data_database": [
+      {
+        "category": "Tampering",
+        "description": "Dados persistidos podem ser alterados indevidamente por acesso não autorizado ou por ataques de injeção SQL.",
+        "countermeasures": [
+          "Aplicar controle de acesso baseado em papéis (RBAC) e menor privilégio.",
+          "Usar consultas parametrizadas para evitar injeção de SQL.",
+          "Habilitar auditoria e trilhas de alteração."
+        ]
+      },
+      {
+        "category": "Information Disclosure",
+        "description": "Vazamento de dados sensíveis armazenados na base por acesso indevido ou falta de criptografia.",
+        "countermeasures": [
+          "Criptografar dados sensíveis em repouso e em trânsito (TLS).",
+          "Restringir e mascarar dados sensíveis em consultas.",
+          "Segmentar a rede para que a base não seja acessível publicamente."
+        ]
+      },
+      {
+        "category": "Denial of Service",
+        "description": "Consultas custosas ou excesso de conexões podem esgotar os recursos do banco de dados.",
+        "countermeasures": [
+          "Definir limites de conexão, timeouts e otimizar consultas.",
+          "Usar réplicas de leitura e escalabilidade adequada."
+        ]
+      }
+    ],
+    "data_cache": [
+      {
+        "category": "Information Disclosure",
+        "description": "Caches sem autenticação ou expostos podem vazar dados sensíveis armazenados temporariamente.",
+        "countermeasures": [
+          "Exigir autenticação e restringir o cache a redes privadas.",
+          "Evitar armazenar dados sensíveis em cache ou criptografá-los.",
+          "Definir TTLs adequados para reduzir a janela de exposição."
+        ]
+      },
+      {
+        "category": "Tampering",
+        "description": "Envenenamento de cache pode fazer com que dados incorretos ou maliciosos sejam servidos aos consumidores.",
+        "countermeasures": [
+          "Validar as chaves e a origem dos dados antes de armazenar em cache.",
+          "Isolar o cache e controlar quem pode escrever nele."
+        ]
+      }
+    ],
+    "data_storage": [
+      {
+        "category": "Information Disclosure",
+        "description": "Buckets ou volumes de armazenamento mal configurados podem expor arquivos sensíveis publicamente.",
+        "countermeasures": [
+          "Bloquear acesso público por padrão e revisar políticas de acesso.",
+          "Criptografar objetos em repouso e forçar HTTPS no acesso.",
+          "Habilitar logs de acesso ao armazenamento."
+        ]
+      },
+      {
+        "category": "Tampering",
+        "description": "Objetos armazenados podem ser alterados ou excluídos indevidamente sem controles de integridade.",
+        "countermeasures": [
+          "Habilitar versionamento e proteção contra exclusão (object lock).",
+          "Aplicar controle de acesso granular por identidade e ação."
+        ]
+      }
+    ],
+    "security_identity_provider": [
+      {
+        "category": "Spoofing",
+        "description": "O provedor de identidade é alvo primário: seu comprometimento permite personificar qualquer usuário do sistema.",
+        "countermeasures": [
+          "Exigir MFA resistente a phishing e políticas de acesso condicional.",
+          "Proteger fluxos OAuth/OIDC contra roubo e reutilização de tokens.",
+          "Rotacionar e proteger chaves de assinatura de tokens."
+        ]
+      },
+      {
+        "category": "Elevation of Privilege",
+        "description": "Configurações incorretas de escopos, papéis ou consentimentos podem conceder privilégios além do necessário.",
+        "countermeasures": [
+          "Revisar periodicamente papéis, escopos e concessões.",
+          "Aplicar menor privilégio e aprovação para atribuições sensíveis."
+        ]
+      },
+      {
+        "category": "Repudiation",
+        "description": "Sem registros de autenticação, ações de identidade podem ser negadas ou não rastreadas.",
+        "countermeasures": [
+          "Registrar eventos de autenticação e autorização de forma auditável.",
+          "Centralizar e proteger os logs de identidade contra adulteração."
+        ]
+      }
+    ],
+    "security_key_management": [
+      {
+        "category": "Information Disclosure",
+        "description": "O comprometimento do serviço de gestão de chaves (KMS) expõe as chaves que protegem todos os dados criptografados.",
+        "countermeasures": [
+          "Restringir o acesso às chaves por políticas de menor privilégio.",
+          "Habilitar rotação automática de chaves e auditoria de uso.",
+          "Usar módulos de segurança de hardware (HSM) quando disponível."
+        ]
+      },
+      {
+        "category": "Elevation of Privilege",
+        "description": "Permissões excessivas sobre chaves permitem descriptografar ou reassinar dados de forma não autorizada.",
+        "countermeasures": [
+          "Separar funções entre administração de chaves e uso de chaves.",
+          "Exigir aprovação e MFA para operações administrativas em chaves."
+        ]
+      }
+    ],
+    "integration_messaging": [
+      {
+        "category": "Tampering",
+        "description": "Mensagens em filas ou tópicos podem ser alteradas ou injetadas se não houver integridade e autenticação.",
+        "countermeasures": [
+          "Autenticar produtores e consumidores do barramento de mensagens.",
+          "Assinar e/ou criptografar mensagens sensíveis.",
+          "Validar o esquema das mensagens antes do processamento."
+        ]
+      },
+      {
+        "category": "Denial of Service",
+        "description": "Inundação de mensagens ou consumidores lentos podem saturar o sistema de mensageria.",
+        "countermeasures": [
+          "Aplicar quotas, backpressure e limites de taxa de publicação.",
+          "Configurar dead-letter queues e políticas de retry controladas."
+        ]
+      }
+    ],
+    "external_saas_service": [
+      {
+        "category": "Information Disclosure",
+        "description": "Dados enviados a serviços SaaS de terceiros podem ser expostos por integrações inseguras ou vazamentos no provedor.",
+        "countermeasures": [
+          "Enviar apenas os dados estritamente necessários e criptografados em trânsito.",
+          "Gerenciar com segurança as chaves de API e credenciais de integração.",
+          "Avaliar a postura de segurança e conformidade do fornecedor."
+        ]
+      },
+      {
+        "category": "Spoofing",
+        "description": "Integrações com SaaS podem ser alvo de personificação caso as credenciais de API sejam roubadas.",
+        "countermeasures": [
+          "Rotacionar e restringir o escopo das chaves de API.",
+          "Validar certificados TLS e a identidade do endpoint remoto."
+        ]
+      }
+    ],
+    "backup_service": [
+      {
+        "category": "Information Disclosure",
+        "description": "Backups armazenam cópias completas de dados sensíveis e são alvo atrativo caso estejam desprotegidos.",
+        "countermeasures": [
+          "Criptografar os backups em repouso e em trânsito.",
+          "Restringir o acesso aos backups com controle de acesso rígido.",
+          "Isolar os backups da rede de produção."
+        ]
+      },
+      {
+        "category": "Tampering",
+        "description": "Backups adulterados ou excluídos comprometem a capacidade de recuperação (alvo de ransomware).",
+        "countermeasures": [
+          "Manter backups imutáveis e testar restaurações periodicamente.",
+          "Aplicar retenção com proteção contra exclusão e cópias offline/air-gapped."
+        ]
+      }
+    ]
+  },
+  "relationship_rules": {
+    "connected_to": [
+      {
+        "category": "Information Disclosure",
+        "description": "A comunicação entre componentes conectados pode expor dados em trânsito se o canal não for protegido.",
+        "countermeasures": [
+          "Usar TLS/mTLS entre os componentes conectados.",
+          "Autenticar as duas pontas da conexão.",
+          "Segmentar a rede para limitar quem pode se comunicar."
+        ]
+      },
+      {
+        "category": "Spoofing",
+        "description": "Um componente pode se passar por outro em uma conexão sem autenticação mútua.",
+        "countermeasures": [
+          "Implementar autenticação mútua (mTLS) entre serviços.",
+          "Validar identidades por certificados ou tokens de serviço."
+        ]
+      }
+    ],
+    "contains": [
+      {
+        "category": "Elevation of Privilege",
+        "description": "Um componente dentro de uma trust boundary pode ser usado para pivotar e escalar acesso a outros recursos do mesmo perímetro.",
+        "countermeasures": [
+          "Aplicar segmentação de rede e menor privilégio dentro da boundary.",
+          "Monitorar movimentação lateral entre componentes do mesmo perímetro.",
+          "Isolar cargas de trabalho sensíveis em sub-redes/segmentos dedicados."
+        ]
+      }
+    ]
+  }
+}
